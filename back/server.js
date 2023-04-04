@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
@@ -8,11 +9,11 @@ const port = 3000;
 
 // Configuration de la connexion à la base de données
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'angular-train',
-  password: 'antoineDragHerag1',
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 //Vérification connexion à la DB
