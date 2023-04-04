@@ -1,10 +1,9 @@
 <div class="container-fluid bg-light">
     <div class="container bg-light">
         <div class="row mt-4" style="height: 500px;">
-            <div class="col"></div>
             <div class="col-md-12 bg-white shadow">
                 <div class="card bg-primary mt-4 ">
-                    <h4 class="text-white ps-3 pt-2 pb-2">New task ?</h4>
+                    <h4 class="text-white ps-3 pt-2 pb-2">My To Do List : Add a task ?</h4>
                 </div>
                 <div class="shadow">
                     <div class="input-group p-4">
@@ -21,7 +20,7 @@
                             <div class="m-3" *ngFor="let task of taskArr1">
                                 <div class="p-2 shadow border">
                                     <div class="input-group row ps-3">
-                                        <div class="card col-md-9 border-0">{{task.name}} (id: {{task.id}})</div>
+                                        <div class="card col-md-9 border-0">{{task.name}}</div>
                                         <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">o</button>
                                         <button class="btn btn-outline-danger col" type="button" (click)="deleteTask(task)">x</button>
                                     </div>
@@ -37,7 +36,7 @@
                             <div class="m-3" *ngFor="let task of taskArr2">
                                 <div class="p-2 shadow border">
                                     <div class="input-group row ps-3">
-                                        <div class="card col-md-9 border-0">{{task.name}} (id: {{task.id}})</div>
+                                        <div class="card col-md-9 border-0">{{task.name}}</div>
                                         <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">o</button>
                                         <button class="btn btn-outline-danger col" type="button" (click)="deleteTask(task)">x</button>
                                     </div>
@@ -53,7 +52,7 @@
                             <div class="m-3" *ngFor="let task of taskArr3">
                                 <div class="p-2 shadow border">
                                     <div class="input-group row ps-3">
-                                        <div class="card col-md-9 border-0">{{task.name}} (id: {{task.id}})</div>
+                                        <div class="card col-md-9 border-0">{{task.name}}</div>
                                         <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">o</button>
                                         <button class="btn btn-outline-danger col" type="button" (click)="deleteTask(task)">x</button>
                                     </div>
@@ -71,23 +70,21 @@
                             </div>
                             <div class="modal-body">
                                 <div class="input-group p-4">
-                                    <input type="text" class="form-control" placeholder="Ajouter une tâche" name="task" [(ngModel)]="editTaskValue">
-                                    <button class="btn btn-outline-success" type="button" data-bs-dismiss="modal" (click)="editTask()">Update</button>
-                                    <div class="col-md-4">
-                                        <select id="weekSelect" class="form-select form-control" onchange="updateWeek();">
-                                            <option value="1">Semaine du <span th:text="${week_0_monday}"></span></option>
-                                            <option value="2">Semaine du <span th:text="${week_1_monday}"></span></option>
-                                            <option value="3">Semaine du <span th:text="${week_2_monday}"></span></option>
-                                            <option value="4">Semaine du <span th:text="${week_3_monday}"></span></option>
-                                        </select>
-                                    </div>
+                                  <input type="text" class="form-control" placeholder="Ajouter une tâche" name="task" [(ngModel)]="editTaskValue">
+                                  <div class="col-md-4">
+                                    <select id="statusSelect" class="form-select form-control" [(ngModel)]="editTaskStatus">
+                                      <option value="0" [selected]="editTaskStatus == 0">New</option>
+                                      <option value="1" [selected]="editTaskStatus == 1">In Progress</option>
+                                      <option value="2" [selected]="editTaskStatus == 2">Closed</option>
+                                    </select>
+                                  </div>
+                                  <button class="btn btn-outline-success" type="button" data-bs-dismiss="modal" (click)="editTask()">Update</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col"></div>
         </div>
     </div>
 </div>

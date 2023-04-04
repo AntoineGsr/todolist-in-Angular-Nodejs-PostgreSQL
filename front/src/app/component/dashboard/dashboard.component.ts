@@ -17,11 +17,13 @@ export class DashboardComponent implements OnInit {
   taskArr3: Task[] = [];
   addTaskValue = '';
   editTaskValue = '';
+  editTaskStatus = 0;
 
   constructor(private crudService: CrudService) {}
 
   ngOnInit(): void {
     this.editTaskValue = '';
+    this.editTaskStatus = 0;
     this.addTaskValue = '';
     this.taskObj = new Task();
     this.taskArr1 = [];
@@ -53,6 +55,7 @@ export class DashboardComponent implements OnInit {
 
   editTask() {
     this.taskObj.name = this.editTaskValue;
+    this.taskObj.status = this.editTaskStatus;
     console.log(this.taskObj.id, this.taskObj.name);
     this.crudService.editTask(this.taskObj).pipe(
       tap(() => {
@@ -82,6 +85,7 @@ export class DashboardComponent implements OnInit {
   call(etask: Task) {
     this.taskObj = etask;
     this.editTaskValue = etask.name;
+    this.editTaskStatus = etask.status;
   }
 
   getTaskByStatus(idStatus : number, taskArr : Task[]) {
