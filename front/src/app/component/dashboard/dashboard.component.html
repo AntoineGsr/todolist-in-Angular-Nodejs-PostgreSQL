@@ -1,0 +1,93 @@
+<div class="container-fluid bg-light">
+    <div class="container bg-light">
+        <div class="row mt-4" style="height: 500px;">
+            <div class="col"></div>
+            <div class="col-md-12 bg-white shadow">
+                <div class="card bg-primary mt-4 ">
+                    <h4 class="text-white ps-3 pt-2 pb-2">New task ?</h4>
+                </div>
+                <div class="shadow">
+                    <div class="input-group p-4">
+                        <input type="text" class="form-control" placeholder="Ajouter une tâche" name="task" [(ngModel)]="addTaskValue">
+                        <button class="btn btn-outline-success" type="button" (click)="addTask()">+</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card bg-info mt-4 col">
+                            <h4 class="text-white ps-3 pt-2 pb-2">New</h4>
+                        </div>
+                        <div style="overflow-y: auto; height: 350px;">
+                            <div class="m-3" *ngFor="let task of taskArr1">
+                                <div class="p-2 shadow border">
+                                    <div class="input-group row ps-3">
+                                        <div class="card col-md-9 border-0">{{task.name}} (id: {{task.id}})</div>
+                                        <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">o</button>
+                                        <button class="btn btn-outline-danger col" type="button" (click)="deleteTask(task)">x</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card bg-warning mt-4 col">
+                            <h4 class="text-white ps-3 pt-2 pb-2">In Progress</h4>
+                        </div>
+                        <div style="overflow-y: auto; height: 350px;">
+                            <div class="m-3" *ngFor="let task of taskArr2">
+                                <div class="p-2 shadow border">
+                                    <div class="input-group row ps-3">
+                                        <div class="card col-md-9 border-0">{{task.name}} (id: {{task.id}})</div>
+                                        <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">o</button>
+                                        <button class="btn btn-outline-danger col" type="button" (click)="deleteTask(task)">x</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-danger mt-4 col">
+                            <h4 class="text-white ps-3 pt-2 pb-2">Closed</h4>
+                        </div>
+                        <div class="col" style="overflow-y: auto; height: 350px;">
+                            <div class="m-3" *ngFor="let task of taskArr3">
+                                <div class="p-2 shadow border">
+                                    <div class="input-group row ps-3">
+                                        <div class="card col-md-9 border-0">{{task.name}} (id: {{task.id}})</div>
+                                        <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">o</button>
+                                        <button class="btn btn-outline-danger col" type="button" (click)="deleteTask(task)">x</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit your task</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group p-4">
+                                    <input type="text" class="form-control" placeholder="Ajouter une tâche" name="task" [(ngModel)]="editTaskValue">
+                                    <button class="btn btn-outline-success" type="button" data-bs-dismiss="modal" (click)="editTask()">Update</button>
+                                    <div class="col-md-4">
+                                        <select id="weekSelect" class="form-select form-control" onchange="updateWeek();">
+                                            <option value="1">Semaine du <span th:text="${week_0_monday}"></span></option>
+                                            <option value="2">Semaine du <span th:text="${week_1_monday}"></span></option>
+                                            <option value="3">Semaine du <span th:text="${week_2_monday}"></span></option>
+                                            <option value="4">Semaine du <span th:text="${week_3_monday}"></span></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</div>
