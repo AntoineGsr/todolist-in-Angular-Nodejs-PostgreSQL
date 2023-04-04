@@ -8,10 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class CrudService {
 
-  serviceURL : string ;
+  serviceURL : string = "http://localhost:3000/tasks";
 
   constructor(private http : HttpClient) {
-    this.serviceURL = "http://localhost:3000/tasks"
   }
 
   addTask(task : Task) : Observable<Task> {
