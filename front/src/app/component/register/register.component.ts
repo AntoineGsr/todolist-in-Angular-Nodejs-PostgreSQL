@@ -15,28 +15,51 @@ export class RegisterComponent implements OnInit {
   password = '';
   email = '';
   user : User = new User();
-
+  pageName = "Login";
   constructor(private crudService: CrudService, private  authService: AuthService) {}
 
   ngOnInit(): void {
     this.email = "";
     this.password = "";
     this.user = new User();
+    this.pageName = "Login";
   }
 
   login() {
     this.user.email = this.email;
     this.user.password_hash = this.password;
     console.log(this.user.email, this.user.password_hash);
-    this.authService.login(this.user).pipe(
-      tap((res) => {
-        this.ngOnInit();
-      }),
-      catchError((err) => {
-        alert('Erreur: login');
-        console.log('Erreur: login');
-        return EMPTY;
-      })
-    ).subscribe();
+    if (this.pageName == "Login") {
+      this.authService.login(this.user).pipe(
+        tap((res) => {
+          this.ngOnInit();
+        }),
+        catchError((err) => {
+          alert('Erreur: login');
+          console.log('Erreur: login');
+          return EMPTY;
+        })
+      ).subscribe();
+    } else {
+      this.authService.register(this.user).pipe(
+        tap((res) => {
+          this.ngOnInit();
+        }),
+        catchError((err) => {
+          alert('Error: register');
+          console.log('Error: register');
+          return EMPTY;
+        })
+      ).subscribe();
+    }
+  }
+
+  registerForm() {
+    this.ngOnInit();
+    this.pageName = "Register";
+  }
+  loginForm() {
+    this.ngOnInit();
+    this.pageName = "Login";
   }
 }
