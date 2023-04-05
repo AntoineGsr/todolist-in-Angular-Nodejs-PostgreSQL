@@ -1,49 +1,15 @@
-<div class="section">
-  <div class="container">
-    <div class="row full-height justify-content-center">
-      <div class="col-12 text-center align-self-center py-5">
-        <div class="section pb-5 pt-5 pt-sm-2 text-center">
-          <h6 class="mb-0 pb-3"><span>Log In</span><span>Register</span></h6>
-          <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
-          <label for="reg-log"></label>
-          <div class="card-3d-wrap mx-auto">
-            <div class="card-3d-wrapper">
-              <div class="card-front">
-                <div class="center-wrap">
-                  <div class="section text-center">
-                    <h4 class="mb-4 pb-3">Log In</h4>
-                    <div class="form-group">
-                      <input type="email" name="logemail" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
-                      <i class="input-icon uil uil-at"></i>
-                    </div>
-                    <div class="form-group mt-2">
-                      <input type="password" name="logpass" class="form-style" placeholder="Password" id="logpass" autocomplete="off">
-                      <i class="input-icon uil uil-lock-alt"></i>
-                    </div>
-                    <a class="btn mt-4">submit</a>
-                    <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
-                  </div>
-                </div>
-              </div>
-              <div class="card-back">
-                <div class="center-wrap">
-                  <div class="section text-center">
-                    <h4 class="mb-4 pb-3">Sign Up</h4>
-                    <div class="form-group mt-2">
-                      <input type="email" name="logemail" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
-                      <i class="input-icon uil uil-at"></i>
-                    </div>
-                    <div class="form-group mt-2">
-                      <input type="password" name="logpass" class="form-style" placeholder="Password" id="logpass" autocomplete="off">
-                      <i class="input-icon uil uil-lock-alt"></i>
-                    </div>
-                    <a class="btn mt-4">submit</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <form class="box">
+          <h1>Login</h1>
+          <p class="text-muted"> Please enter your email and password</p>
+          <input class="invalid-feedback feedback-pos" type="text" name="email" placeholder="Email" [(ngModel)]="email">
+          <input type="password" name="password" placeholder="Password" [(ngModel)]="password">
+          <a class="forgot text-muted">Forgot password?</a>
+          <input type="submit" name="" value="Login" (click)="login()">
+      </form>
       </div>
     </div>
   </div>

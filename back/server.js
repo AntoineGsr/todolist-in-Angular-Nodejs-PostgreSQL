@@ -1,13 +1,14 @@
 require('dotenv').config();
-const express = require('express');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const express = require('express');
 const app = express();
+
 const port = 3000;
 
-// Configuration de la connexion à la base de données
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -16,28 +17,25 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-//Vérification connexion à la DB
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
-    console.error('Erreur lors de la connexion à la base de données', err);
+    console.error('Error: DB Connection', err);
   } else {
-    console.log('Connecté à la base de données PostgreSQL');
+    console.log('DB Connection Successful');
   }
 });
 
 app.use(bodyParser.json());
 app.use(cors());
 
-// Route pour récupérer toutes les tâches
-app.get('/tasks', (req, res) => {
+app.get('/tasks', async (req, res) => {
   pool.query('SELECT * FROM public.tasks', (err, results) => {
     if (err) throw err;
     res.send(results.rows);
   });
 });
 
-// Route pour ajouter une tâche
-app.post('/tasks', (req, res) => {
+app.post('/tasks', async (req, res) => {
   const task = req.body;
   pool.query('INSERT INTO tasks (name) VALUES ($1)', [task.name], (err, result) => {
     if (err) throw err;
@@ -45,8 +43,7 @@ app.post('/tasks', (req, res) => {
   });
 });
 
-// Route pour mettre à jour une tâche
-app.put('/tasks/:id', (req, res) => {
+app.put('/tasks/:id', async (req, res) => {
   const task = req.body;
   pool.query('UPDATE tasks SET name = $1, status = $2 WHERE id = $3', [task.name, task.status, task.id], (err, result) => {
     if (err) throw err;
@@ -54,8 +51,7 @@ app.put('/tasks/:id', (req, res) => {
   });
 });
 
-// Route pour supprimer une tâche
-app.delete('/tasks/:id', (req, res) => {
+app.delete('/tasks/:id', async (req, res) => {
   const id = req.params.id;
   pool.query('DELETE FROM tasks WHERE id = $1', [id], (err, result) => {
     if (err) throw err;
@@ -63,21 +59,48 @@ app.delete('/tasks/:id', (req, res) => {
   });
 });
 
-// Récupération des tâches en fonction du statut
-app.get('/tasks/getTaskByStatus/:idStatus', (req, res) => {
+app.get('/tasks/getTaskByStatus/:idStatus', async (req, res) => {
   const idStatus = req.params.idStatus;
-  const sql = 'SELECT * FROM tasks WHERE status = $1';
   pool.query('SELECT * FROM tasks WHERE status = $1', [idStatus], (err, results) => {
     if (err) {
       console.log(err);
-      res.status(500).send('Erreur lors de la récupération des tâches par statut');
+      res.status(500).send('Error: getTaskByStatus');
     } else {
       res.status(200).json(results.rows);
     }
   });
 });
 
-// Démarrage du serveur
+app.put('/register', async (req, res) => {
+  const user = req.params.user;
+  const saltRounds = 10;
+
+  user.password_hash = await bcrypt.hash(user.password_hash, saltRounds);
+  pool.query('INSERT INTO users (email, password_hash) VALUES ($1, $2)', [user.email, user.password_hash], (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+app.post('/login', async (req, res) => {
+  console.log("inside login route")
+  const user = req.body;
+  const userDB = await pool.query('SELECT * FROM users WHERE email = $1', [user.email]);
+
+  console.log("user: ", user.email, user.password_hash);
+  console.log("userDB: ", userDB.rows[0].email, userDB.rows[0].password_hash);
+  if (!userDB) {
+    return res.status(401).json({ message: 'User does not exist' });
+  } else {
+    console.log("email valid => ", userDB.rows[0].email, user.email);
+  }
+  const isValidPassword = await bcrypt.compare(user.password_hash, userDB.rows[0].password_hash);
+  if (!isValidPassword) {
+    return res.status(401).json({ message: 'Invalid password' });
+  } else
+    console.log("password valid => ", user.password_hash);
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

@@ -16,11 +16,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(user: User): Observable<User> {
-    return this.http.post<User>(`${this.serviceUrl}/register`, user);
+    return this.http.post<User>(this.serviceUrl + '/register', user);
   }
 
   login(user: User): Observable<User> {
     this.isLoggedIn = true;
-    return this.http.post<User>(`${this.serviceUrl}/login`, user);
+    return this.http.post<User>(this.serviceUrl + '/login', user);
   }
 }
