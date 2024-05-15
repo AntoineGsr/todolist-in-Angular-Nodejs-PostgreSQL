@@ -83,7 +83,6 @@ app.put('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  console.log("inside login route")
   const user = req.body;
   const userDB = await pool.query('SELECT * FROM users WHERE email = $1', [user.email]);
 
